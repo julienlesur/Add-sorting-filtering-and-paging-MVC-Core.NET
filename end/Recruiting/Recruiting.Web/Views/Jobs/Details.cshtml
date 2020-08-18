@@ -1,0 +1,29 @@
+﻿@model JobDetails
+@{
+}
+
+@section LeftMenu{
+    @await Component.InvokeAsync("JobsShortList", new { applicantId = Model.Job.JobId })
+}
+
+<h2>@Model.Job.Title - @Model.Job.Reference </h2>
+<div class="mb-2 mt-2">
+    <div>
+        @Model.Job.Description
+    </div>
+    <div>
+        Company: @Model.Job.Company
+    </div>
+    <div>
+        Type: @Model.Job.Type
+    </div>
+    <div>
+        Location: @Model.Job.Location
+    </div>
+</div>
+<a asp-action="Edit" asp-controller="Jobs" asp-route-id="@Model.Job.JobId" class="btn btn-primary">Edit Job</a>
+<a asp-action="List" asp-controller="Jobs" class="btn btn-secondary">Back to the Jobs' list</a>
+@if (!String.IsNullOrEmpty(Model.Message))
+{
+    <div class="mt-2 alert alert-info">@Model.Message</div>
+}

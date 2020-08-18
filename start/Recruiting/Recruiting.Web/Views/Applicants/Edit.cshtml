@@ -1,0 +1,67 @@
+﻿@model Applicant
+
+@{
+    var jobReference = ViewData["JobReference"]?.ToString();
+}
+
+@if (Model.ApplicantId > 0)
+{
+    <h2>Editing @Model.FulllName </h2>
+}
+else
+{
+    <h2>Adding new applicant</h2>
+}
+
+
+
+<form method="post">
+    <input type="hidden" asp-for="ApplicantId" />
+    <input type="hidden" name="jobReference" value="@jobReference"/>
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input type="text" asp-for="FirstName" class="form-control" />
+        <span class="text-danger" asp-validation-for="FirstName"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input type="text" asp-for="LastName" class="form-control" />
+        <span class="text-danger" asp-validation-for="LastName"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input type="text" asp-for="Email" class="form-control" />
+        <span class="text-danger" asp-validation-for="Email"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Adress1"></label>
+        <input type="text" asp-for="Adress1" class="form-control" />
+        <span class="text-danger" asp-validation-for="Adress1"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Adress2"></label>
+        <input type="text" asp-for="Adress2" class="form-control" />
+        <span class="text-danger" asp-validation-for="Adress2"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ZipCode"></label>
+        <input type="text" asp-for="ZipCode" class="form-control" />
+        <span class="text-danger" asp-validation-for="ZipCode"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="City"></label>
+        <input type="text" asp-for="City" class="form-control" />
+        <span class="text-danger" asp-validation-for="City"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Country"></label>
+        <input type="text" asp-for="Country" class="form-control" />
+        <span class="text-danger" asp-validation-for="Country   "></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-secondary" asp-controller="Applicants" asp-action="List" asp-route-jobReference="@jobReference">Back to the applicants' list</a>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

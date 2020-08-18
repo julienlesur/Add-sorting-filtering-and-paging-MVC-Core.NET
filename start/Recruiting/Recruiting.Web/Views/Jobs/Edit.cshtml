@@ -1,0 +1,56 @@
+﻿@model JobEdit
+
+@{
+}
+
+@if (Model.Job.JobId > 0)
+{
+    <h2>Editing @Model.Job.Title - @Model.Job.Reference </h2>
+}
+else
+{
+    <h2>Adding a new Job </h2>
+}
+
+
+
+<form method="post">
+    <input type="hidden" asp-for="Job.JobId" />
+    <div class="form-group">
+        <label asp-for="Job.Title"></label>
+        <input type="text" asp-for="Job.Title" class="form-control" />
+        <span class="text-danger" asp-validation-for="Job.Title"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Reference"></label>
+        <input type="text" asp-for="Job.Reference" class="form-control" />
+        <span class="text-danger" asp-validation-for="Job.Reference"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Company"></label>
+        <input type="text" asp-for="Job.Company" class="form-control" />
+        <span class="text-danger" asp-validation-for="Job.Company"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Description"></label>
+        <textarea rows="7" type="text" asp-for="Job.Description" class="form-control"></textarea>
+        <span class="text-danger" asp-validation-for="Job.Description"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Type"></label>
+        <select asp-for="Job.Type" class="form-control" asp-items="@Model.Types">
+        </select>
+        <span class="text-danger" asp-validation-for="Job.Type"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Location"></label>
+        <input type="text" asp-for="Job.Location" class="form-control" />
+        <span class="text-danger" asp-validation-for="Job.Location"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-secondary" asp-controller="Jobs" asp-action="List">Back to the jobs' list</a>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

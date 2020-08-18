@@ -1,0 +1,45 @@
+﻿@model ApplicantDetails
+@{
+    var jobReference = ViewData["JobReference"]?.ToString();
+}
+
+
+<h2>@Model.Applicant.FulllName</h2>
+@section LeftMenu{
+    @await Component.InvokeAsync("ApplicantsShortList", new { applicantId = Model.Applicant.ApplicantId, jobReference = jobReference })
+}
+<div class="row">
+    <div class="col-6 mb-2 mt-2">
+        <div>
+            Email: @Model.Applicant.Email
+        </div>
+        <div>
+            Adress:
+            <div class="ml-3">
+                @Model.Applicant.Adress1 <br />
+                @if (!String.IsNullOrEmpty(@Model.Applicant.Adress2))
+                {
+                    @Model.Applicant.Adress2 <br />
+                }
+                @Model.Applicant.ZipCode @Model.Applicant.City <br />
+                @Model.Applicant.Country
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        @await Component.InvokeAsync("ApplicationsList", new { applicantId = Model.Applicant.ApplicantId })
+    </div>
+
+</div>
+<a asp-action="Edit" asp-controller="Applicants" asp-route-id="@Model.Applicant.ApplicantId" asp-route-jobReference="@jobReference" class="btn btn-primary">Edit Applicant</a>
+<a asp-action="List" asp-controller="Applicants" asp-route-jobReference="@jobReference" class="btn btn-secondary">Back to the Applicants' list</a>
+@if (!String.IsNullOrEmpty(Model.Message))
+{
+    <div class="mt-2 alert alert-info">@Model.Message</div>
+}
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/ApplicationList.js"></script>
+}
