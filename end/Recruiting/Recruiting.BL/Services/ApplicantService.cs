@@ -63,16 +63,58 @@ namespace Recruiting.BL.Services
             return _mapApplicationEntityToDomain(efLastApplication);
         }
 
-        public async Task<IEnumerable<Applicant>> GetApplicantList(string jobReference)
+        public async Task<IEnumerable<Applicant>> GetApplicantList(string jobReference, string sortOrder)
         {
+            IEnumerable<Applicant> applicants;
             if (String.IsNullOrEmpty(jobReference))
             {
-                return await GetApplicantsWithLastApplication();
+                applicants = await GetApplicantsWithLastApplication();
             }
             else
             {
-                return await GetApplicantsByJobReference(jobReference);
+                applicants = await GetApplicantsByJobReference(jobReference);
             }
+            applicants = SortList(sortOrder, applicants);
+            return applicants;
+        }
+
+        private static IEnumerable<Applicant> SortList(string sortOrder, IEnumerable<Applicant> applicants)
+        {
+            switch (sortOrder)
+            {
+                case "email":
+                    applicants = applicants.OrderBy(app => app.Email);
+                    break;
+                case "city":
+                    applicants = applicants.OrderBy(app => app.City);
+                    break;
+                case "country":
+                    applicants = applicants.OrderBy(app => app.Country);
+                    break;
+                case "application":
+                    applicants = applicants.OrderBy(app => app.ApplicationReference);
+                    break;
+                case "fullName_desc":
+                    applicants = applicants.OrderByDescending(app => app.FulllName);
+                    break;
+                case "email_desc":
+                    applicants = applicants.OrderByDescending(app => app.Email);
+                    break;
+                case "city_desc":
+                    applicants = applicants.OrderByDescending(app => app.City);
+                    break;
+                case "country_desc":
+                    applicants = applicants.OrderByDescending(app => app.Country);
+                    break;
+                case "application_desc":
+                    applicants = applicants.OrderByDescending(app => app.ApplicationReference);
+                    break;
+                default:
+                    applicants = applicants.OrderBy(app => app.FulllName);
+                    break;
+            }
+
+            return applicants;
         }
 
         private async Task<IEnumerable<Applicant>> GetApplicantsByJobReference(string jobReference)
