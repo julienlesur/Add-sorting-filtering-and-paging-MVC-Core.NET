@@ -53,7 +53,7 @@
             <tr class="table-primary">
                 <th>
                     <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.FullNameSort">
-                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().FulllName) <i class="fa @symboleNameSort"></i>
+                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().FullName) <i class="fa @symboleNameSort"></i>
                     </a>
                 </th>
                 <th>
@@ -88,7 +88,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => applicant.FulllName)
+                        @Html.DisplayFor(modelItem => applicant.FullName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => applicant.Email)

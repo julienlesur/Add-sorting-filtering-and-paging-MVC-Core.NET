@@ -95,7 +95,7 @@ namespace Recruiting.BL.Services
                     applicants = applicants.OrderBy(app => app.ApplicationTitleAndReference);
                     break;
                 case "fullName_desc":
-                    applicants = applicants.OrderByDescending(app => app.FulllName);
+                    applicants = applicants.OrderByDescending(app => app.FullName);
                     break;
                 case "email_desc":
                     applicants = applicants.OrderByDescending(app => app.Email);
@@ -110,7 +110,7 @@ namespace Recruiting.BL.Services
                     applicants = applicants.OrderByDescending(app => app.ApplicationTitleAndReference);
                     break;
                 default:
-                    applicants = applicants.OrderBy(app => app.FulllName);
+                    applicants = applicants.OrderBy(app => app.FullName);
                     break;
             }
 
