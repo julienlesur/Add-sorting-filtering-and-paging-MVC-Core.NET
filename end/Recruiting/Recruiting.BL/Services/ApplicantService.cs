@@ -92,7 +92,7 @@ namespace Recruiting.BL.Services
                     applicants = applicants.OrderBy(app => app.Country);
                     break;
                 case "application":
-                    applicants = applicants.OrderBy(app => app.ApplicationReference);
+                    applicants = applicants.OrderBy(app => app.ApplicationTitleAndReference);
                     break;
                 case "fullName_desc":
                     applicants = applicants.OrderByDescending(app => app.FulllName);
@@ -107,7 +107,7 @@ namespace Recruiting.BL.Services
                     applicants = applicants.OrderByDescending(app => app.Country);
                     break;
                 case "application_desc":
-                    applicants = applicants.OrderByDescending(app => app.ApplicationReference);
+                    applicants = applicants.OrderByDescending(app => app.ApplicationTitleAndReference);
                     break;
                 default:
                     applicants = applicants.OrderBy(app => app.FulllName);
@@ -125,6 +125,7 @@ namespace Recruiting.BL.Services
             {
                 var applicant = _mapEntityToDomain(application.Applicant);
                 applicant.ApplicationReference = application.Job.Reference;
+                applicant.ApplicationTitleAndReference = application.Job.Title + " - " + application.Job.Reference;
                 applicants.Add(applicant);
             }
 
@@ -138,6 +139,7 @@ namespace Recruiting.BL.Services
             {
                 var lastApplication = await GetApplicantLastApplication(applicant.ApplicantId);
                 applicant.ApplicationReference = lastApplication.JobReference;
+                applicant.ApplicationTitleAndReference = lastApplication.JobTitleAndRef;
             }
             return applicants;
         }

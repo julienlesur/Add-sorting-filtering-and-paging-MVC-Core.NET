@@ -95,3 +95,7 @@ body {
     .list-group-item-short-list:hover {
         background-color: #6b8a7a !important;
     }
+
+    th a{
+        color:white;
+    }

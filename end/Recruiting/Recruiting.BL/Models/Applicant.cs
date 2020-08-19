@@ -34,6 +34,7 @@ namespace Recruiting.BL.Models
         public string Country { get; set; }
 
         public string ApplicationReference { get; set; }
+        public string ApplicationTitleAndReference { get; set; }
 
         public IList<Application> Applications { get; set; }
 
