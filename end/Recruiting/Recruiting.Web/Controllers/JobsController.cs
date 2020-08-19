@@ -4,6 +4,7 @@ using Recruiting.BL.Models;
 using Recruiting.BL.Services.Interfaces;
 using Recruiting.Data.EfModels;
 using Recruiting.Web.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -22,10 +23,19 @@ namespace Recruiting.Web.Controllers
             _jobService = jobService;
             _htmlHelper = htmlHelper;
         }
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string sortOrder)
         {
-            IEnumerable<Job> jobs = await _jobService.GetJobs();
-            return View(jobs);
+            IEnumerable<Job> jobs = await _jobService.GetJobs(sortOrder);
+
+            JobList jobList = new JobList { 
+                Jobs = jobs,
+                CurrentSort = sortOrder,
+                TitleSort = String.IsNullOrEmpty(sortOrder) || sortOrder == "title" ? "title_desc" : "title",
+                ReferenceSort = sortOrder == "reference" ? "reference_desc" : "reference",
+                LocationSort = sortOrder == "location" ? "location_desc" : "location",
+                CompanySort = sortOrder == "company" ? "company_desc" : "company"
+            };
+            return View(jobList);
         }
 
         public async Task<IActionResult> Details(int id)

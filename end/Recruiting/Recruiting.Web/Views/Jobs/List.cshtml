@@ -1,5 +1,37 @@
-﻿@model IEnumerable<Job>
+﻿@model JobList
+
 @{
+    var symboleTitleSort = "";
+    var symboleReferenceSort = "";
+    var symboleLocationSort = "";
+    var symboleCompanySort = "";
+    switch (Model.CurrentSort)
+    {
+        case "reference":
+            symboleReferenceSort = "fa-sort-up";
+            break;
+        case "reference_desc":
+            symboleReferenceSort = "fa-sort-down";
+            break;
+        case "location":
+            symboleLocationSort = "fa-sort-up";
+            break;
+        case "location_desc":
+            symboleLocationSort = "fa-sort-down";
+            break;
+        case "company":
+            symboleCompanySort = "fa-sort-up";
+            break;
+        case "company_desc":
+            symboleCompanySort = "fa-sort-down";
+            break;
+        case "title_desc":
+            symboleTitleSort = "fa-sort-down";
+            break;
+        default:
+            symboleTitleSort = "fa-sort-up";
+            break;
+    }
 }
 
 <h2>Current Jobs</h2>
@@ -9,16 +41,24 @@
         <thead>
             <tr class="table-primary">
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
+                    <a asp-controller="Jobs" asp-action="List" asp-route-sortOrder="@Model.TitleSort">
+                        @Html.DisplayNameFor(model => model.Jobs.FirstOrDefault().Title) <i class="fa @symboleTitleSort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Reference)
+                    <a asp-controller="Jobs" asp-action="List" asp-route-sortOrder="@Model.ReferenceSort">
+                        @Html.DisplayNameFor(model => model.Jobs.FirstOrDefault().Reference) <i class="fa @symboleReferenceSort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Company)
+                    <a asp-controller="Jobs" asp-action="List" asp-route-sortOrder="@Model.CompanySort">
+                        @Html.DisplayNameFor(model => model.Jobs.FirstOrDefault().Company) <i class="fa @symboleCompanySort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Location)
+                    <a asp-controller="Jobs" asp-action="List" asp-route-sortOrder="@Model.LocationSort">
+                        @Html.DisplayNameFor(model => model.Jobs.FirstOrDefault().Location) <i class="fa @symboleLocationSort"></i>
+                    </a>
                 </th>
                 <th>
 
@@ -31,7 +71,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var job in Model)
+            @foreach (var job in Model.Jobs)
             {
             <tr id="job@(job.JobId)">
                 <td>
