@@ -9,7 +9,7 @@ namespace Recruiting.BL.Services.Interfaces
     public interface IApplicantService : IServiceBase<Applicant>
     {
         Task<Application> GetApplicantLastApplication(int applicantId);
-        Task<IEnumerable<Applicant>> GetApplicantList(string jobReference);
+        Task<IEnumerable<Applicant>> GetApplicantList(string jobReference, string sortOrder);
         Task<Applicant> AddAsync(Applicant applicant, string jobReference);
     }
 }

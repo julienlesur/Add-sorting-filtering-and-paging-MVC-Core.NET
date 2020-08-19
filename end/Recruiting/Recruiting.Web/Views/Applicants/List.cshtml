@@ -2,6 +2,45 @@
 
 @{
     var jobReference = ViewData["JobReference"]?.ToString();
+
+    var symboleNameSort = "";
+    var symboleEmailSort = "";
+    var symboleCitySort = "";
+    var symboleCountrySort = "";
+    var symboleApplicationSort = "";
+    switch (Model.CurrentSort)
+    {
+        case "email":
+            symboleEmailSort = "fa-sort-up";
+            break;
+        case "email_desc":
+            symboleEmailSort = "fa-sort-down";
+            break;
+        case "city":
+            symboleCitySort = "fa-sort-up";
+            break;
+        case "city_desc":
+            symboleCitySort = "fa-sort-down";
+            break;
+        case "country":
+            symboleCountrySort = "fa-sort-up";
+            break;
+        case "country_desc":
+            symboleCountrySort = "fa-sort-down";
+            break;
+        case "application":
+            symboleApplicationSort = "fa-sort-up";
+            break;
+        case "application_desc":
+            symboleApplicationSort = "fa-sort-down";
+            break;
+        case "fullName_desc":
+            symboleNameSort = "fa-sort-down";
+            break;
+        default:
+            symboleNameSort = "fa-sort-up";
+            break;
+    }
 }
 
 
@@ -13,19 +52,29 @@
         <thead>
             <tr class="table-primary">
                 <th>
-                    @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().FulllName)
+                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.FullNameSort">
+                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().FullName) <i class="fa @symboleNameSort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Email)
+                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.EmailSort">
+                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Email) <i class="fa @symboleEmailSort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().City)
+                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.CitySort">
+                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().City) <i class="fa @symboleCitySort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Country)
+                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.CountrySort">
+                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Country) <i class="fa @symboleCountrySort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Model.JobColumnTitle
+                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.ApplicationSort">
+                        @Model.JobColumnTitle <i class="fa @symboleApplicationSort"></i>
+                    </a>
                 </th>
                 <th class="d-flex justify-content-center">
                     <a class="btn btn-sm" asp-controller="Applicants" asp-action="Add" asp-route-jobReference="@jobReference" title="Add applicant">
@@ -39,7 +88,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => applicant.FulllName)
+                        @Html.DisplayFor(modelItem => applicant.FullName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => applicant.Email)

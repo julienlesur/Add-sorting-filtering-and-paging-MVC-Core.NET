@@ -13,7 +13,7 @@ namespace Recruiting.BL.Models
         [Required]
         public string LastName { get; set; }
 
-        public string FulllName { get { return (FirstName ?? "") + " " + (LastName ?? ""); } }
+        public string FullName { get { return (FirstName ?? "") + " " + (LastName ?? ""); } }
         [Required]
         //[EmailAddress]
         [RegularExpression(
@@ -34,6 +34,7 @@ namespace Recruiting.BL.Models
         public string Country { get; set; }
 
         public string ApplicationReference { get; set; }
+        public string ApplicationTitleAndReference { get; set; }
 
         public IList<Application> Applications { get; set; }
 
@@ -53,7 +54,7 @@ namespace Recruiting.BL.Models
                    ApplicantId == other.ApplicantId &&
                    FirstName == other.FirstName &&
                    LastName == other.LastName &&
-                   FulllName == other.FulllName &&
+                   FullName == other.FullName &&
                    Email == other.Email &&
                    Adress1 == other.Adress1 &&
                    Adress2 == other.Adress2 &&
@@ -68,7 +69,7 @@ namespace Recruiting.BL.Models
             hash.Add(ApplicantId);
             hash.Add(FirstName);
             hash.Add(LastName);
-            hash.Add(FulllName);
+            hash.Add(FullName);
             hash.Add(Email);
             hash.Add(Adress1);
             hash.Add(Adress2);

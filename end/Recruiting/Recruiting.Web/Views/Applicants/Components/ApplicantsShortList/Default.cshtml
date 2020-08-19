@@ -10,8 +10,8 @@
         @foreach (var applicant in Model)
         {
             <li class="list-group-item list-group-item-short-list" active-url="Details/@(applicant.ApplicantId)" comparer-mode="endswith">
-                <a class="text-white" asp-controller="Applicants" asp-action="Details" asp-route-id="@applicant.ApplicantId" asp-route-jobReference="@jobReference" title="@applicant.FulllName">
-                    <i class="fa fa-user pr-2"></i>@applicant.FulllName
+                <a class="text-white" asp-controller="Applicants" asp-action="Details" asp-route-id="@applicant.ApplicantId" asp-route-jobReference="@jobReference" title="@applicant.FullName">
+                    <i class="fa fa-user pr-2"></i>@applicant.FullName
                 </a>
             </li>
         }

@@ -4,7 +4,7 @@
 }
 
 
-<h2>@Model.Applicant.FulllName</h2>
+<h2>@Model.Applicant.FullName</h2>
 @section LeftMenu{
     @await Component.InvokeAsync("ApplicantsShortList", new { applicantId = Model.Applicant.ApplicantId, jobReference = jobReference })
 }
