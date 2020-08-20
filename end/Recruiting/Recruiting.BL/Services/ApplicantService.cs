@@ -34,22 +34,28 @@ namespace Recruiting.BL.Services
 
         public async Task<Applicant> AddAsync(Applicant applicant, string jobReference)
         {
-            var addedApplicant = await _efApplicantRepository.AddAsync(_mapDomainToEntity(applicant));
-            if (addedApplicant != null && !String.IsNullOrEmpty(jobReference))
+            var addedApplicant = await _efApplicantRepository
+                                            .AddAsync(_mapDomainToEntity(applicant));
+
+            if (!String.IsNullOrEmpty(jobReference))
             {
-                int idJob = await _efJobRepository.GetJobIdByReference(jobReference);
-                if (idJob> 0)
-                {
-                    addedApplicant.Applications = new List<EfApplication>();
-                    addedApplicant.Applications
-                        .Add(new EfApplication{
-                            JobId = idJob,
-                            ApplicationDate = DateTime.Now
-                        });
-                }
+                await AddApplicationFromJobReference(jobReference, addedApplicant);
             }
+
             await _efUnitRepository.CommitAsync();
+
             return _mapEntityToDomain(addedApplicant);
+        }
+
+        private async Task AddApplicationFromJobReference(string jobReference, EfApplicant addedApplicant)
+        {
+            var application = await _efApplicationRepository
+                                            .AddFromJobReference(jobReference);
+            if (application != null)
+            {
+                (addedApplicant.Applications ?? new List<EfApplication>())
+                    .Add(application);
+            }
         }
 
         public async Task<IList<Applicant>> DomainListAsync()
