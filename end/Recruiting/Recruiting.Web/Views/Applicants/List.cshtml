@@ -2,45 +2,6 @@
 
 @{
     var jobReference = ViewData["JobReference"]?.ToString();
-
-    var symboleNameSort = "";
-    var symboleEmailSort = "";
-    var symboleCitySort = "";
-    var symboleCountrySort = "";
-    var symboleApplicationSort = "";
-    switch (Model.CurrentSort)
-    {
-        case "email":
-            symboleEmailSort = "fa-sort-up";
-            break;
-        case "email_desc":
-            symboleEmailSort = "fa-sort-down";
-            break;
-        case "city":
-            symboleCitySort = "fa-sort-up";
-            break;
-        case "city_desc":
-            symboleCitySort = "fa-sort-down";
-            break;
-        case "country":
-            symboleCountrySort = "fa-sort-up";
-            break;
-        case "country_desc":
-            symboleCountrySort = "fa-sort-down";
-            break;
-        case "application":
-            symboleApplicationSort = "fa-sort-up";
-            break;
-        case "application_desc":
-            symboleApplicationSort = "fa-sort-down";
-            break;
-        case "fullName_desc":
-            symboleNameSort = "fa-sort-down";
-            break;
-        default:
-            symboleNameSort = "fa-sort-up";
-            break;
-    }
 }
 
 
@@ -52,28 +13,28 @@
         <thead>
             <tr class="table-primary">
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.FullNameSort">
-                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().FullName) <i class="fa @symboleNameSort"></i>
+                    <a asp-controller="Applicants" asp-action="List" sort-order="fullname" current-sort="@Model.CurrentSort">
+                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().FulllName)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.EmailSort">
-                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Email) <i class="fa @symboleEmailSort"></i>
+                    <a asp-controller="Applicants" asp-action="List" sort-order="email" current-sort="@Model.CurrentSort">
+                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Email)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.CitySort">
-                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().City) <i class="fa @symboleCitySort"></i>
+                    <a asp-controller="Applicants" asp-action="List" sort-order="city" current-sort="@Model.CurrentSort">
+                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().City)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.CountrySort">
-                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Country) <i class="fa @symboleCountrySort"></i>
+                    <a asp-controller="Applicants" asp-action="List" sort-order="country" current-sort="@Model.CurrentSort">
+                        @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Country)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" asp-route-sortOrder="@Model.ApplicationSort">
-                        @Model.JobColumnTitle <i class="fa @symboleApplicationSort"></i>
+                    <a asp-controller="Applicants" asp-action="List" sort-order="application" current-sort="@Model.CurrentSort">
+                        @Model.JobColumnTitle
                     </a>
                 </th>
                 <th class="d-flex justify-content-center">
@@ -88,7 +49,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => applicant.FullName)
+                        @Html.DisplayFor(modelItem => applicant.FulllName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => applicant.Email)

@@ -20,21 +20,16 @@ namespace Recruiting.Web.Controllers
             _applicantService = applicantService;
         }
 
-        public async Task<IActionResult> List(string jobReference, string sortOrder)
+        public async Task<IActionResult> List(string jobReference, string sortOrder = "fullname")
         {
             IEnumerable<Applicant> applicants = await _applicantService.GetApplicantList(jobReference, sortOrder);
 
-            return View(new ApplicantList { 
+            return View(new ApplicantList {
                 Applicants = applicants,
                 ListTitle = String.IsNullOrEmpty(jobReference) ? "Current applicants" : jobReference + " applicants",
                 JobColumnTitle = String.IsNullOrEmpty(jobReference) ? "Last application" : "Application",
-                CurrentSort = sortOrder,
-                FullNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder == "fullname" ? "fullName_desc" : "fullname",
-                EmailSort = sortOrder == "email" ? "email_desc" : "email",
-                CitySort = sortOrder == "city" ? "city_desc" : "city",
-                CountrySort = sortOrder == "country" ? "country_desc" : "country",
-                ApplicationSort = sortOrder == "application" ? "application_desc" : "application"
-            });
+                CurrentSort = sortOrder
+            }); ;
         }
 
 

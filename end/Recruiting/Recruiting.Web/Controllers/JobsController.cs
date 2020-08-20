@@ -23,17 +23,13 @@ namespace Recruiting.Web.Controllers
             _jobService = jobService;
             _htmlHelper = htmlHelper;
         }
-        public async Task<IActionResult> List(string sortOrder)
+        public async Task<IActionResult> List(string sortOrder = "title")
         {
             IEnumerable<Job> jobs = await _jobService.GetJobs(sortOrder);
 
             JobList jobList = new JobList { 
                 Jobs = jobs,
-                CurrentSort = sortOrder,
-                TitleSort = String.IsNullOrEmpty(sortOrder) || sortOrder == "title" ? "title_desc" : "title",
-                ReferenceSort = sortOrder == "reference" ? "reference_desc" : "reference",
-                LocationSort = sortOrder == "location" ? "location_desc" : "location",
-                CompanySort = sortOrder == "company" ? "company_desc" : "company"
+                CurrentSort = sortOrder
             };
             return View(jobList);
         }
