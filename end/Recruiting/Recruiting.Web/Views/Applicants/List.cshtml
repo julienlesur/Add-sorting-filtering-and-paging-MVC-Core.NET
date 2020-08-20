@@ -8,32 +8,41 @@
 
 <h2>Current Applicants</h2>
 
+<form class="form-inline py-2 my-2 my-lg-0" asp-controller="Applicants" asp-action="List" method="get">
+    <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
+    <input type="hidden" asp-for="@jobReference" />
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search in name or email" asp-for="@Model.SearchText" />
+    </div>
+    <input type="submit" value="Search" class="btn btn-secondary ml-2" />
+</form>
+
 <div class="table-responsive">
     <table class="table table-striped table-dark">
         <thead>
             <tr class="table-primary">
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="fullname" current-sort="@Model.CurrentSort">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="fullname" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
                         @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().FulllName)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="email" current-sort="@Model.CurrentSort">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="email" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
                         @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Email)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="city" current-sort="@Model.CurrentSort">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="city" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
                         @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().City)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="country" current-sort="@Model.CurrentSort">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="country" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
                         @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Country)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="application" current-sort="@Model.CurrentSort">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="application" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
                         @Model.JobColumnTitle
                     </a>
                 </th>

@@ -8,5 +8,6 @@ namespace Recruiting.Web.Models.ViewModels
         public IEnumerable<Applicant> Applicants { get; set; }
         public string ListTitle { get; set; }
         public string JobColumnTitle { get; set; }
+        public  string SearchText { get; set; }
     }
 }
