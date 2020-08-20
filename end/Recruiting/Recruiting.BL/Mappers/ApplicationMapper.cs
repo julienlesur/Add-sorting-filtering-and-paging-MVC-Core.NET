@@ -15,7 +15,7 @@ namespace Recruiting.BL.Mappers
             new Application
             {
                 ApplicantId = entity.ApplicantId,
-                ApplicantFullName = entity.Applicant != null ? ApplicantMapper.MapEntityToDomain(entity.Applicant).FullName : String.Empty,
+                ApplicantFullName = entity.Applicant != null ? ApplicantMapper.MapEntityToDomain(entity.Applicant).FulllName : String.Empty,
                 JobId = entity.JobId,
                 JobReference = entity.Job?.Reference ?? String.Empty,
                 JobTitle = entity.Job?.Title ?? String.Empty,
