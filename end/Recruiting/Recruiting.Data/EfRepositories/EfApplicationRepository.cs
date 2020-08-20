@@ -24,6 +24,20 @@ namespace Recruiting.Data.EfRepositories
             return newApplication;
         }
 
+        public async Task<EfApplication> AddFromJobReference(string jobReference)
+        {
+            var job = await _context.Jobs.SingleOrDefaultAsync(job => job.Reference == jobReference);
+            if (job != null)
+            {
+                return new EfApplication
+                    {
+                        JobId = job.Id,
+                        ApplicationDate = DateTime.Now
+                    };
+            }
+            return null;
+        }
+
         public async Task DeleteAsync(int applicantId, int jobId)
         {
             var application = await _context.Applications.SingleOrDefaultAsync(app => app.ApplicantId == applicantId && app.JobId == jobId);
