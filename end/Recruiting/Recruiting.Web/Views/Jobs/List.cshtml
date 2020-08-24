@@ -5,16 +5,7 @@
 
 <h2>Current Jobs</h2>
 
-<form class="form-inline py-2 my-2 my-lg-0 w-100 form-search" asp-controller="Jobs" asp-action="List" method="get">
-    <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
-    <div class="input-group w-50">
-        <input type="text" class="form-control input-search-text" placeholder="Search in title or reference..." asp-for="@Model.SearchText" />
-        <button class="btn bg-transparent btn-cancel-search" style="margin-left: -40px; z-index: 100; color:#95a5a6" title="Cancel search" onclick="return false;">
-            <i class="fa fa-times"></i>
-        </button>
-    </div>
-    <input type="submit" value="Search" class="btn btn-secondary ml-2" />
-</form>
+@await Component.InvokeAsync("SearchInList", new { sort = Model.CurrentSort, search = Model.SearchText, controller = "Jobs" })
 
 <div class="table-responsive">
     <table class="table table-striped table-dark">

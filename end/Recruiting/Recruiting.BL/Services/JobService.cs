@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services
 {
-    public class JobService : ServiceBase<Job, EfJob>, IJobService
+    public class JobService : ServiceBase<Job, EfJob>, IJobService, ISortAndSearchService<Job>
     {
         private readonly IEfJobRepository _efJobRepository;
         private readonly Func<IEnumerable<EfJob>, IList<Job>> _mapListEntityToListDomain;
@@ -33,25 +33,17 @@ namespace Recruiting.BL.Services
             return null;
         }
 
-        public async Task<IEnumerable<Job>> GetJobs(string sortOrder, string searchText)
-        {
-            IEnumerable<EfJob> efJobs = await _efJobRepository.ListAsync();
-            efJobs = FilterList(searchText, efJobs);
-            efJobs = SortList(sortOrder, efJobs);
-            return _mapListEntityToListDomain(efJobs);
-        }
-
-        private static IEnumerable<EfJob> FilterList(string searchText, IEnumerable<EfJob> efJobs)
+        public IEnumerable<Job> FilterList(string searchText, IEnumerable<Job> jobs)
         {
             if (!String.IsNullOrEmpty(searchText))
             {
-                efJobs = efJobs.Where(job => job.Title.ToLower().Contains(searchText.ToLower()) || job.Reference.ToLower().Contains(searchText.ToLower()));
+                jobs = jobs.Where(job => job.Title.ToLower().Contains(searchText.ToLower()) || job.Reference.ToLower().Contains(searchText.ToLower()));
             }
 
-            return efJobs;
+            return jobs;
         }
 
-        private IEnumerable<EfJob> SortList(string sortOrder, IEnumerable<EfJob> efJobs)
+        public IEnumerable<Job> SortList(string sortOrder, IEnumerable<Job> efJobs)
         {
             switch (sortOrder)
             {
@@ -79,5 +71,14 @@ namespace Recruiting.BL.Services
 
         public bool IsReferenceUnique(int id, string reference)
             => _efJobRepository.IsReferenceUnique(id, reference);
+
+        public async Task<IEnumerable<Job>> GetListAsync(string search, string sortOrder)
+        {
+            IEnumerable<EfJob> efJobs = await _efJobRepository.ListAsync();
+            IEnumerable<Job> jobs = _mapListEntityToListDomain(efJobs);
+            jobs = FilterList(search, jobs);
+            jobs = SortList(sortOrder, jobs);
+            return jobs;
+        }
     }
 }

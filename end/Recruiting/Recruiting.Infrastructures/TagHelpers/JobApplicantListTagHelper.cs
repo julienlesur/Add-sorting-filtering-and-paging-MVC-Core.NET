@@ -18,7 +18,7 @@ namespace Recruiting.Infrastructures.TagHelpers
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var applicantsCount = await _jobService.GetNumberOfApplicationsByJobReference(JobReference);
-            output.Content.SetHtmlContent($@"<a href=""/Applicants/List?jobreference={JobReference}"">
+            output.Content.SetHtmlContent($@"<a href=""/Applicants/List?jobReference={JobReference}"">
                                                 {applicantsCount}
                                             </a>");
             

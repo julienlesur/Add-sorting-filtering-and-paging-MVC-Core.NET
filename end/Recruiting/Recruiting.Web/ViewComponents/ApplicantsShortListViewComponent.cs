@@ -18,11 +18,9 @@ namespace Recruiting.Web.ViewComponents
             _applicantService = applicantService;
         }
 
-        [JobReference]
-        public async Task<IViewComponentResult> InvokeAsync(
-            string jobReference)
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            IEnumerable<Applicant> applicants = await _applicantService.GetApplicantList(jobReference, "","");
+            IEnumerable<Applicant> applicants = await _applicantService.GetListAsync("","");
             
             return View(applicants);
         }
