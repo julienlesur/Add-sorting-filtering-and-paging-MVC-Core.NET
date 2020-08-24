@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Recruiting.Web.Models.ViewModels
 {
-    public class JobList : SortViewModel
+    public class JobList : SortAndSearchViewModel
     {
         public IEnumerable<Job> Jobs { get; set; }
-        public string SearchText { get; set; }
     }
 }

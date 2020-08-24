@@ -26,8 +26,8 @@ namespace Recruiting.Web.Controllers
 
             return View(new ApplicantList {
                 Applicants = applicants,
-                ListTitle = String.IsNullOrEmpty(jobReference) ? "Current applicants" : jobReference + " applicants",
-                JobColumnTitle = String.IsNullOrEmpty(jobReference) ? "Last application" : "Application",
+                ListTitle = String.IsNullOrEmpty(searchText) ? "Current applicants" : "Filtered applicants",
+                JobColumnTitle = "Last application",
                 CurrentSort = sortOrder,
                 SearchText = searchText
             }); ;

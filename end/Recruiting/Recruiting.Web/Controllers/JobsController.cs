@@ -25,7 +25,7 @@ namespace Recruiting.Web.Controllers
         }
         public async Task<IActionResult> List(string searchText, string sortOrder = "title")
         {
-            IEnumerable<Job> jobs = await _jobService.GetJobs(sortOrder, searchText);
+            IEnumerable<Job> jobs = await _jobService.GetListAsync(searchText, sortOrder);
 
             JobList jobList = new JobList { 
                 Jobs = jobs,

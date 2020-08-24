@@ -10,23 +10,20 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services
 {
-    public class ApplicantService : ServiceBase<Applicant, EfApplicant>, IApplicantService
+    public class ApplicantService : ServiceBase<Applicant, EfApplicant>, IApplicantService, ISortAndSearchService<Applicant>
     {
         private readonly IEfApplicantRepository _efApplicantRepository;
         private readonly IEfApplicationRepository _efApplicationRepository;
-        private readonly IEfJobRepository _efJobRepository;
         private readonly Func<IEnumerable<EfApplicant>, IList<Applicant>> _mapListEntityToListDomain;
         private readonly Func<EfApplication, Application> _mapApplicationEntityToDomain;
 
         public ApplicantService(IEfApplicantRepository efApplicantRepository,
                                     IEfApplicationRepository efApplicationRepository,
-                                    IEfJobRepository efJobRepository,
                                     IEfUnitRepository efUnitRepository)
             : base(efApplicantRepository, efUnitRepository, ApplicantMapper.MapDomainToEntity, ApplicantMapper.MapEntityToDomain)
         {
             _efApplicantRepository = efApplicantRepository;
             _efApplicationRepository = efApplicationRepository;
-            _efJobRepository = efJobRepository;
             _mapListEntityToListDomain = ApplicantMapper.MapListEntityToListDomain;
             _mapApplicationEntityToDomain = ApplicationMapper.MapEntityToDomain;
 
@@ -69,24 +66,7 @@ namespace Recruiting.BL.Services
             return _mapApplicationEntityToDomain(efLastApplication);
         }
 
-        public async Task<IEnumerable<Applicant>> GetApplicantList(string jobReference, string search, string sortOrder)
-        {
-            IEnumerable<Applicant> applicants;
-            if (String.IsNullOrEmpty(jobReference))
-            {
-                applicants = await GetApplicantsWithLastApplication();
-            }
-            else
-            {
-                applicants = await GetApplicantsByJobReference(jobReference);
-            }
-            applicants = FilterList(search, applicants);
-            applicants = SortList(sortOrder, applicants);
-
-            return applicants;
-        }
-
-        private static IEnumerable<Applicant> FilterList(string search, IEnumerable<Applicant> applicants)
+        public IEnumerable<Applicant> FilterList(string search, IEnumerable<Applicant> applicants)
         {
             if (!String.IsNullOrEmpty(search))
             {
@@ -96,7 +76,7 @@ namespace Recruiting.BL.Services
             return applicants;
         }
 
-        private static IEnumerable<Applicant> SortList(string sortOrder, IEnumerable<Applicant> applicants)
+        public IEnumerable<Applicant> SortList(string sortOrder, IEnumerable<Applicant> applicants)
         {
             switch (sortOrder)
             {
@@ -159,6 +139,30 @@ namespace Recruiting.BL.Services
                 applicant.ApplicationReference = lastApplication.JobReference;
                 applicant.ApplicationTitleAndReference = lastApplication.JobTitleAndRef;
             }
+            return applicants;
+        }
+        public async Task<IEnumerable<Applicant>> GetApplicantList(string jobReference, string search, string sortOrder)
+        {
+            IEnumerable<Applicant> applicants;
+            if (String.IsNullOrEmpty(jobReference))
+            {
+                applicants = await GetApplicantsWithLastApplication();
+            }
+            else
+            {
+                applicants = await GetApplicantsByJobReference(jobReference);
+            }
+            applicants = FilterList(search, applicants);
+            applicants = SortList(sortOrder, applicants);
+
+            return applicants;
+        }
+        public async Task<IEnumerable<Applicant>> GetListAsync(string search, string sortOrder)
+        {
+            IEnumerable<Applicant> applicants = await GetApplicantsWithLastApplication();
+            applicants = FilterList(search, applicants);
+            applicants = SortList(sortOrder, applicants);
+
             return applicants;
         }
     }
