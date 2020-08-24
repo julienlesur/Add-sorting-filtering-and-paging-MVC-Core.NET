@@ -22,7 +22,7 @@ namespace Recruiting.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(
             string jobReference)
         {
-            IEnumerable<Applicant> applicants = await _applicantService.GetApplicantList(jobReference,"");
+            IEnumerable<Applicant> applicants = await _applicantService.GetApplicantList(jobReference, "","");
             
             return View(applicants);
         }

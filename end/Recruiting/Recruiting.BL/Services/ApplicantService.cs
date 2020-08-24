@@ -69,7 +69,7 @@ namespace Recruiting.BL.Services
             return _mapApplicationEntityToDomain(efLastApplication);
         }
 
-        public async Task<IEnumerable<Applicant>> GetApplicantList(string jobReference, string sortOrder)
+        public async Task<IEnumerable<Applicant>> GetApplicantList(string jobReference, string search, string sortOrder)
         {
             IEnumerable<Applicant> applicants;
             if (String.IsNullOrEmpty(jobReference))
@@ -80,7 +80,19 @@ namespace Recruiting.BL.Services
             {
                 applicants = await GetApplicantsByJobReference(jobReference);
             }
+            applicants = FilterList(search, applicants);
             applicants = SortList(sortOrder, applicants);
+
+            return applicants;
+        }
+
+        private static IEnumerable<Applicant> FilterList(string search, IEnumerable<Applicant> applicants)
+        {
+            if (!String.IsNullOrEmpty(search))
+            {
+                applicants = applicants.Where(app => app.FulllName.ToLower().Contains(search.ToLower()) || app.Email.ToLower().Contains(search));
+            }
+
             return applicants;
         }
 

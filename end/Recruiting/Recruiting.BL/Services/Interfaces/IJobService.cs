@@ -8,7 +8,7 @@ namespace Recruiting.BL.Services.Interfaces
 {
     public interface IJobService : IServiceBase<Job>
     {
-        public Task<IEnumerable<Job>> GetJobs(string sortOrder);
+        public Task<IEnumerable<Job>> GetJobs(string sortOrder, string searchText);
         public bool IsReferenceUnique(int id, string reference);
         public Task<int> GetNumberOfApplicationsByJobReference(string reference);
         Task<(int Id, string Title)?> GetIdAndTitleByReference(string jobReference);

@@ -33,11 +33,22 @@ namespace Recruiting.BL.Services
             return null;
         }
 
-        public async Task<IEnumerable<Job>> GetJobs(string sortOrder)
+        public async Task<IEnumerable<Job>> GetJobs(string sortOrder, string searchText)
         {
             IEnumerable<EfJob> efJobs = await _efJobRepository.ListAsync();
+            efJobs = FilterList(searchText, efJobs);
             efJobs = SortList(sortOrder, efJobs);
             return _mapListEntityToListDomain(efJobs);
+        }
+
+        private static IEnumerable<EfJob> FilterList(string searchText, IEnumerable<EfJob> efJobs)
+        {
+            if (!String.IsNullOrEmpty(searchText))
+            {
+                efJobs = efJobs.Where(job => job.Title.ToLower().Contains(searchText.ToLower()) || job.Reference.ToLower().Contains(searchText.ToLower()));
+            }
+
+            return efJobs;
         }
 
         private IEnumerable<EfJob> SortList(string sortOrder, IEnumerable<EfJob> efJobs)
