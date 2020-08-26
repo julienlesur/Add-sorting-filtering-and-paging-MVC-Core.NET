@@ -80,6 +80,9 @@
     </table>
 </div>
 
+@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.NumberOfItems, currentPage = Model.CurrentPage, sort = Model.CurrentSort, search = Model.SearchText, controller = "Applicants" })
+
+
 @section Scripts {
     <script src="~/js/searchList.js"></script>
 }

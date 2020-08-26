@@ -20,7 +20,7 @@ namespace Recruiting.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            IEnumerable<Applicant> applicants = await _applicantService.GetListAsync("","");
+            (IEnumerable<Applicant> applicants, int numbersOfItems) = await _applicantService.GetListAsync("","", 1, 3);
             
             return View(applicants);
         }

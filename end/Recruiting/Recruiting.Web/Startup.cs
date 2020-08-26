@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Recruiting.Data.Data;
+using Recruiting.Infrastructures.Configuration;
 
 namespace Recruiting.Web
 {
@@ -29,7 +30,8 @@ namespace Recruiting.Web
             services
                 .AddEfRepositories()
                 .AddServices()
-                .AddHttpServices();
+                .AddHttpServices()
+                .Configure<GridConfiguration>(Configuration.GetSection(GridConfiguration.GridOptions));
 
         }
 

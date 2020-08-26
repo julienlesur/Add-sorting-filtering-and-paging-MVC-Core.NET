@@ -15,7 +15,7 @@ namespace Recruiting.Web.ViewComponents
 
         public IViewComponentResult Invoke(string sort, string search,string controller, string action = "List")
         {
-            SearchInListViewModel searchInList = new SearchInListViewModel
+            ControllerActionSSPViewModel searchInList = new ControllerActionSSPViewModel
             {
                 Controller = controller,
                 Action = action,

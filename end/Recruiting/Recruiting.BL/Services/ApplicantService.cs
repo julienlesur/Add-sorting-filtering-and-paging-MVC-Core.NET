@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services
 {
-    public class ApplicantService : ServiceBase<Applicant, EfApplicant>, IApplicantService, ISortAndSearchService<Applicant>
+    public class ApplicantService : ServiceBase<Applicant, EfApplicant>, IApplicantService, IPagingSortAndSearchService<Applicant>
     {
         private readonly IEfApplicantRepository _efApplicantRepository;
         private readonly IEfApplicationRepository _efApplicationRepository;
@@ -141,7 +141,7 @@ namespace Recruiting.BL.Services
             }
             return applicants;
         }
-        public async Task<IEnumerable<Applicant>> GetApplicantList(string jobReference, string search, string sortOrder)
+        public async Task<(IEnumerable<Applicant> applicants, int numberOfItems)> GetApplicantList(string jobReference, string search, string sortOrder, int indexPage, int itemsPerPage)
         {
             IEnumerable<Applicant> applicants;
             if (String.IsNullOrEmpty(jobReference))
@@ -154,16 +154,23 @@ namespace Recruiting.BL.Services
             }
             applicants = FilterList(search, applicants);
             applicants = SortList(sortOrder, applicants);
-
-            return applicants;
+            return GetPageElements(indexPage, itemsPerPage, applicants);
         }
-        public async Task<IEnumerable<Applicant>> GetListAsync(string search, string sortOrder)
+
+        public (IEnumerable<Applicant>, int) GetPageElements(int indexPage, int itemsPerPage, IEnumerable<Applicant> applicants)
+        =>
+            (applicants
+                .Skip((indexPage - 1) * itemsPerPage)
+                .Take(itemsPerPage),
+            applicants.Count());
+
+        public async Task<(IEnumerable<Applicant>, int)> GetListAsync(string search, string sortOrder, int indexPage, int itemsPerPage)
         {
             IEnumerable<Applicant> applicants = await GetApplicantsWithLastApplication();
             applicants = FilterList(search, applicants);
             applicants = SortList(sortOrder, applicants);
 
-            return applicants;
+            return GetPageElements(indexPage, itemsPerPage, applicants);
         }
     }
 }

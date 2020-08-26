@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services.Interfaces
 {
-    public interface IJobService : IServiceBase<Job>, ISortAndSearchService<Job>
+    public interface IJobService : IServiceBase<Job>, IPagingSortAndSearchService<Job>
     {
         public bool IsReferenceUnique(int id, string reference);
         public Task<int> GetNumberOfApplicationsByJobReference(string reference);
