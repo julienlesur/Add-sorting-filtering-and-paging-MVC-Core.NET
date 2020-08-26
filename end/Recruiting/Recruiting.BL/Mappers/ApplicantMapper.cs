@@ -47,5 +47,15 @@ namespace Recruiting.BL.Mappers
             }
             return domainApplicants;
         }
+
+        public static IList<Applicant> MapToListDomain(this IEnumerable<EfApplicant> entities)
+        {
+            IList<Applicant> domainApplicants = new List<Applicant>();
+            foreach (EfApplicant entity in entities)
+            {
+                domainApplicants.Add(MapEntityToDomain(entity));
+            }
+            return domainApplicants;
+        }
     }
 }

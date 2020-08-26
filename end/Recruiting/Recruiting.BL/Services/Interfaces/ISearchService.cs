@@ -7,6 +7,6 @@ namespace Recruiting.BL.Services.Interfaces
 {
     public interface ISearchService<T>
     {
-        public IEnumerable<T> FilterList(string searchText, IEnumerable<T> entities);
+        public Func<T, bool> GetFilter(string search);
     }
 }

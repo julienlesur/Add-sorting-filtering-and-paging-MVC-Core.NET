@@ -9,7 +9,7 @@ namespace Recruiting.BL.Services
     {
         protected readonly Func<TDomain, TEntity> _mapDomainToEntity;
         protected readonly Func<TEntity, TDomain> _mapEntityToDomain;
-        private readonly IEfRepositoryBase<TEntity> _efRepository;
+        protected readonly IEfRepositoryBase<TEntity> _efRepository;
         protected readonly IEfUnitRepository _efUnitRepository;
 
         protected ServiceBase(IEfRepositoryBase<TEntity> efRepository,
