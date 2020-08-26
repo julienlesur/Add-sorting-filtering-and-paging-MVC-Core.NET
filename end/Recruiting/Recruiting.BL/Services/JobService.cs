@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services
 {
-    public class JobService : ServiceBase<Job, EfJob>, IJobService, ISortAndSearchService<Job>
+    public class JobService : ServiceBase<Job, EfJob>, IJobService, IPagingSortAndSearchService<Job>
     {
         private readonly IEfJobRepository _efJobRepository;
         private readonly Func<IEnumerable<EfJob>, IList<Job>> _mapListEntityToListDomain;
@@ -72,13 +72,21 @@ namespace Recruiting.BL.Services
         public bool IsReferenceUnique(int id, string reference)
             => _efJobRepository.IsReferenceUnique(id, reference);
 
-        public async Task<IEnumerable<Job>> GetListAsync(string search, string sortOrder)
+
+        public (IEnumerable<Job>, int) GetPageElements(int indexPage, int itemsPerPage, IEnumerable<Job> jobs)
+        =>
+            (jobs
+                .Skip((indexPage - 1) * itemsPerPage)
+                .Take(itemsPerPage), 
+            jobs.Count());
+
+        public async Task<(IEnumerable<Job>, int)> GetListAsync(string search, string sortOrder, int indexPage, int itemsPerPage)
         {
             IEnumerable<EfJob> efJobs = await _efJobRepository.ListAsync();
             IEnumerable<Job> jobs = _mapListEntityToListDomain(efJobs);
             jobs = FilterList(search, jobs);
             jobs = SortList(sortOrder, jobs);
-            return jobs;
+            return GetPageElements(indexPage, itemsPerPage, jobs);
         }
     }
 }

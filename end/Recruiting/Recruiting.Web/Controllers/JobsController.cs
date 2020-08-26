@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using Recruiting.BL.Models;
 using Recruiting.BL.Services.Interfaces;
 using Recruiting.Data.EfModels;
+using Recruiting.Infrastructures.Configuration;
 using Recruiting.Web.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,21 +18,26 @@ namespace Recruiting.Web.Controllers
     {
         private readonly IJobService _jobService;
         private readonly IHtmlHelper _htmlHelper;
+        private readonly GridConfiguration _gridOptions;
 
         public JobsController(IJobService jobService,
-                                IHtmlHelper htmlHelper)
+                                IHtmlHelper htmlHelper,
+                                IOptions<GridConfiguration> gridOptions)
         {
             _jobService = jobService;
             _htmlHelper = htmlHelper;
+            _gridOptions = gridOptions.Value;
         }
-        public async Task<IActionResult> List(string searchText, string sortOrder = "title")
+        public async Task<IActionResult> List(string searchText, int? indexPage, string sortOrder = "title")
         {
-            IEnumerable<Job> jobs = await _jobService.GetListAsync(searchText, sortOrder);
+            (IEnumerable<Job> jobs, int numberOfItems) = await _jobService.GetListAsync(searchText, sortOrder, indexPage ?? 1, _gridOptions.ItemsPerPage);
 
             JobList jobList = new JobList { 
                 Jobs = jobs,
                 CurrentSort = sortOrder,
-                SearchText = searchText
+                SearchText = searchText,
+                CurrentPage = indexPage ?? 1,
+                NumberOfItems = numberOfItems                
             };
             return View(jobList);
         }

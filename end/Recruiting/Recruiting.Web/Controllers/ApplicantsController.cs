@@ -7,6 +7,8 @@ using Recruiting.BL.Models;
 using Recruiting.BL.Services.Interfaces;
 using Recruiting.Web.Models.ViewModels;
 using Recruiting.Infrastructures.ActionFilters;
+using Microsoft.Extensions.Options;
+using Recruiting.Infrastructures.Configuration;
 
 namespace Recruiting.Web.Controllers
 {
@@ -14,22 +16,27 @@ namespace Recruiting.Web.Controllers
     public class ApplicantsController : Controller
     {
         private readonly IApplicantService _applicantService;
+        private readonly GridConfiguration _gridOptions;
 
-        public ApplicantsController(IApplicantService applicantService)
+        public ApplicantsController(IApplicantService applicantService,
+                                        IOptions<GridConfiguration> gridOptions)
         {
             _applicantService = applicantService;
+            _gridOptions = gridOptions.Value;
         }
 
-        public async Task<IActionResult> List(string jobReference, string searchText, string sortOrder = "fullname")
+        public async Task<IActionResult> List(string jobReference, string searchText, int? indexPage, string sortOrder = "fullname")
         {
-            IEnumerable<Applicant> applicants = await _applicantService.GetApplicantList(jobReference, searchText, sortOrder);
+            (IEnumerable<Applicant> applicants, int numberOfItems) = await _applicantService.GetApplicantList(jobReference, searchText, sortOrder, indexPage ?? 1, _gridOptions.ItemsPerPage);
 
             return View(new ApplicantList {
                 Applicants = applicants,
                 ListTitle = String.IsNullOrEmpty(searchText) ? "Current applicants" : "Filtered applicants",
                 JobColumnTitle = "Last application",
                 CurrentSort = sortOrder,
-                SearchText = searchText
+                SearchText = searchText,
+                CurrentPage = indexPage ?? 1,
+                NumberOfItems = numberOfItems
             }); ;
         }
 

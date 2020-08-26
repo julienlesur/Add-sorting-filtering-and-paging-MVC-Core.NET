@@ -8,7 +8,7 @@
 
 <h2>Current Applicants</h2>
 
-@await Component.InvokeAsync("SearchInList", new { sort = Model.CurrentSort, search = Model.SearchText, controller="Applicants" })
+@await Component.InvokeAsync("SearchInList", new { sort = Model.CurrentSort, search = Model.SearchText, controller = "Applicants" })
 
 <div class="table-responsive">
     <table class="table table-striped table-dark">
@@ -84,6 +84,9 @@
         </tbody>
     </table>
 </div>
+
+@await Component.InvokeAsync("Pagination", new { numberOfItems=Model.NumberOfItems, currentPage = Model.CurrentPage, sort = Model.CurrentSort, search = Model.SearchText, controller = "Applicants" })
+
 
 @section Scripts {
     <script src="~/js/searchList.js"></script>
