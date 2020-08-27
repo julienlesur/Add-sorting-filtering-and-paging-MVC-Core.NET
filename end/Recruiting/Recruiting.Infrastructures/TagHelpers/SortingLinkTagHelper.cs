@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 namespace Recruiting.Infrastructures.TagHelpers
 {
 
-    [HtmlTargetElement("a", Attributes = "sort-order,current-sort")]
+    [HtmlTargetElement("a", Attributes = "sort-order,current-sort,search-text")]
     public class SortingLinkTagHelper : TagHelper
     {
         public string SortOrder { get; set; }
         public string CurrentSort { get; set; }
+        public string SearchText { get; set; }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
@@ -23,10 +24,11 @@ namespace Recruiting.Infrastructures.TagHelpers
                 output.Content.SetHtmlContent($@"{childContent} <i class=""fa {sortSymbol}""></i>");
             }
 
+            string searchTextQuery = String.IsNullOrEmpty(SearchText) ? "" : $@"&SearchText={SearchText}";
             var currentHref = output.Attributes["href"]?.Value;
             var sortName = GetSortName();
             output.Attributes.SetAttribute("href",
-                $@"{currentHref.ToString()}?sortOrder={sortName}");
+                $@"{currentHref.ToString()}?sortOrder={sortName}{searchTextQuery}");
         }
 
         private string GetSortName()
