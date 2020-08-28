@@ -40,7 +40,7 @@ namespace Recruiting.BL.Models
 
 
         public static readonly Applicant _EmptyApplicant = new Applicant { ApplicantId = 0 };
-        internal static readonly string _DefaultSort = "fullname";
+        public static readonly string _DefaultSort = "fullname";
 
         public static bool IsEmpty(Applicant applicant)
             => applicant == _EmptyApplicant;

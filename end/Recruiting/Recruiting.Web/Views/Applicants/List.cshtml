@@ -15,27 +15,27 @@
         <thead>
             <tr class="table-primary">
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="fullname" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="fullname" current-sort="@Model.CurrentSort" sort-search="01">
                         @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().FulllName)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="email" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="email" current-sort="@Model.CurrentSort" sort-search="01">
                         @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Email)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="city" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="city" current-sort="@Model.CurrentSort" sort-search="01">
                         @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().City)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="country" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="country" current-sort="@Model.CurrentSort" sort-search="01">
                         @Html.DisplayNameFor(model => model.Applicants.FirstOrDefault().Country)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Applicants" asp-action="List" sort-order="application" current-sort="@Model.CurrentSort" search-text="@Model.SearchText">
+                    <a asp-controller="Applicants" asp-action="List" sort-order="application" current-sort="@Model.CurrentSort" sort-search="01">
                         @Model.JobColumnTitle
                     </a>
                 </th>
@@ -66,7 +66,7 @@
                         <job-link job-reference="@applicant.ApplicationReference"></job-link>
                     </td>
                     <td class="d-flex justify-content-center">
-                        <a class="btn btn-sm" asp-controller="Applicants" asp-action="Details" asp-route-id="@applicant.ApplicantId" asp-route-jobReference="@jobReference" title="Details applicant">
+                        <a class="btn btn-sm" asp-controller="Applicants" asp-action="Details" asp-route-id="@applicant.ApplicantId" asp-route-jobReference="@jobReference"  sort-search="11" title="Details applicant">
                             <i class="fas fa-info-circle"></i>
                         </a>
                         <a class="btn btn-sm" asp-controller="Applicants" asp-action="Edit" asp-route-id="@applicant.ApplicantId" asp-route-jobReference="@jobReference" title="Edit applicant">
@@ -85,7 +85,7 @@
     </table>
 </div>
 
-@await Component.InvokeAsync("Pagination", new { numberOfItems=Model.NumberOfItems, currentPage = Model.CurrentPage, sort = Model.CurrentSort, search = Model.SearchText, controller = "Applicants" })
+@await Component.InvokeAsync("Pagination", new { numberOfItems=Model.NumberOfItems, currentPage = Model.CurrentPage, controller = "Applicants" })
 
 
 @section Scripts {

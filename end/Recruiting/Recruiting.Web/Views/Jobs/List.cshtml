@@ -80,7 +80,7 @@
     </table>
 </div>
 
-@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.NumberOfItems, currentPage = Model.CurrentPage, sort = Model.CurrentSort, search = Model.SearchText, controller = "Jobs" })
+@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.NumberOfItems, currentPage = Model.CurrentPage, controller = "Jobs" })
 
 
 @section Scripts {

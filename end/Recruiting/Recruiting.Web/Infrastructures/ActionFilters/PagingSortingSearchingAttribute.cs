@@ -21,6 +21,10 @@ namespace Recruiting.Web.Infrastructures
                 return;
 
             var model = ((ViewResult)viewResult).Model;
+            if (model is ControllerActionSSPViewModel)
+            {
+                return;
+            }
             if (model is SortSearchAndPagingViewModel)
             {
                 ((SortSearchAndPagingViewModel)model).CurrentPage = ((PagingSortingSearchingControllerBase)controller)._indexPage;
