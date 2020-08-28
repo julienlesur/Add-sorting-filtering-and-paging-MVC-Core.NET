@@ -24,9 +24,9 @@ namespace Recruiting.Infrastructures.TagHelpers
             }
 
             var currentHref = output.Attributes["href"]?.Value;
-            var sortName = GetSortName();
+            var sortName = "sortOrder="+GetSortName();
             output.Attributes.SetAttribute("href",
-                $@"{currentHref.ToString()}?sortOrder={sortName}");
+                currentHref.ToString().CompleteUri(sortName));
         }
 
         private string GetSortName()

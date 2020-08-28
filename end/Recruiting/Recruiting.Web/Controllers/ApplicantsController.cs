@@ -9,15 +9,17 @@ using Recruiting.Web.Models.ViewModels;
 using Recruiting.Infrastructures.ActionFilters;
 using Microsoft.Extensions.Options;
 using Recruiting.Infrastructures.Configuration;
+using Recruiting.Web.Infrastructures;
 
 namespace Recruiting.Web.Controllers
 {
     [JobReference]
-    public class ApplicantsController : Controller
+    public class ApplicantsController : PagingSortingSearchingControllerBase
     {
         private readonly IApplicantService _applicantService;
         private readonly GridConfiguration _gridOptions;
 
+        public override string _sortOrder => SortOrder ?? Applicant._DefaultSort;
         public ApplicantsController(IApplicantService applicantService,
                                         IOptions<GridConfiguration> gridOptions)
         {
@@ -25,17 +27,15 @@ namespace Recruiting.Web.Controllers
             _gridOptions = gridOptions.Value;
         }
 
-        public async Task<IActionResult> List(string jobReference, string searchText, int? indexPage, string sortOrder = "fullname")
+        [PagingSortingSearching]
+        public async Task<IActionResult> List(string jobReference)
         {
-            (IEnumerable<Applicant> applicants, int numberOfItems) = await _applicantService.GetApplicantList(jobReference, searchText, sortOrder, indexPage ?? 1, _gridOptions.ItemsPerPage);
+            (IEnumerable<Applicant> applicants, int numberOfItems) = await _applicantService.GetApplicantList(jobReference, _searchText, _sortOrder, _indexPage, _gridOptions.ItemsPerPage);
 
             return View(new ApplicantList {
                 Applicants = applicants,
-                ListTitle = String.IsNullOrEmpty(searchText) ? "Current applicants" : "Filtered applicants",
+                ListTitle = String.IsNullOrEmpty(_searchText) ? "Current applicants" : "Filtered applicants",
                 JobColumnTitle = "Last application",
-                CurrentSort = sortOrder,
-                SearchText = searchText,
-                CurrentPage = indexPage ?? 1,
                 NumberOfItems = numberOfItems
             }); ;
         }

@@ -19,7 +19,7 @@ namespace Recruiting.BL.Services
         public ApplicantService(IEfApplicantRepository efApplicantRepository,
                                     IEfApplicationRepository efApplicationRepository,
                                     IEfUnitRepository efUnitRepository)
-            : base(efApplicantRepository, efUnitRepository, ApplicantMapper.MapDomainToEntity, ApplicantMapper.MapEntityToDomain, ApplicantMapper.MapListEntityToListDomain)
+            : base(efApplicantRepository, efUnitRepository, ApplicantMapper.MapDomainToEntity, ApplicantMapper.MapEntityToDomain, ApplicantMapper.MapListEntityToListDomain, Applicant._DefaultSort)
         {
             _efApplicantRepository = efApplicantRepository;
             _efApplicationRepository = efApplicationRepository;
