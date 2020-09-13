@@ -6,6 +6,6 @@ namespace Recruiting.BL.Services.Interfaces
 {
     public interface ISortService<T>
     {
-        public IEnumerable<T> SortList(string sortOrder, IEnumerable<T> entities);
+        public Func<T, string> GetSort(string sortOrder);
     }
 }

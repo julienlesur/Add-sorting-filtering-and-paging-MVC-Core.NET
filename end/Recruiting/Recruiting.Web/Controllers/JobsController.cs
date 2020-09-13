@@ -1,40 +1,47 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using Recruiting.BL.Models;
 using Recruiting.BL.Services.Interfaces;
 using Recruiting.Data.EfModels;
+using Recruiting.Infrastructures.Configuration;
+using Recruiting.Web.Infrastructures;
 using Recruiting.Web.Models.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace Recruiting.Web.Controllers
 {
-    public class JobsController : Controller
+    public class JobsController : PagingSortingSearchingControllerBase
     {
         private readonly IJobService _jobService;
         private readonly IHtmlHelper _htmlHelper;
+        private readonly GridConfiguration _gridOptions;
 
+        public override string _sortOrder => SortOrder??Job._DefaultSort;
         public JobsController(IJobService jobService,
-                                IHtmlHelper htmlHelper)
+                                IHtmlHelper htmlHelper,
+                                IOptions<GridConfiguration> gridOptions)
         {
             _jobService = jobService;
             _htmlHelper = htmlHelper;
+            _gridOptions = gridOptions.Value;
         }
-        public async Task<IActionResult> List(string searchText, string sortOrder = "title")
+
+        [PagingSortingSearching]
+        public async Task<IActionResult> List()
         {
-            IEnumerable<Job> jobs = await _jobService.GetListAsync(searchText, sortOrder);
+            (IEnumerable<Job> jobs, int numberOfItems) = await _jobService.GetListAsync(_searchText, _sortOrder, _indexPage, _gridOptions.ItemsPerPage);
 
             JobList jobList = new JobList { 
                 Jobs = jobs,
-                CurrentSort = sortOrder,
-                SearchText = searchText
+                NumberOfItems = numberOfItems                
             };
             return View(jobList);
         }
 
+        [PagingSortingSearching]
         public async Task<IActionResult> Details(int id)
         {
             Job job = await _jobService.FindByIdAsync(id);
@@ -45,7 +52,7 @@ namespace Recruiting.Web.Controllers
             return View(new JobDetails { Job = job, Message = (TempData["Message"] ?? "").ToString() });
         }
 
-        public IActionResult Add()
+        public IActionResult Add()  
         {
             return View("Edit", new JobEdit { Job = Job._EmptyJob, Types = _htmlHelper.GetEnumSelectList<JobType>().OrderBy(t => t.Text) });
         }

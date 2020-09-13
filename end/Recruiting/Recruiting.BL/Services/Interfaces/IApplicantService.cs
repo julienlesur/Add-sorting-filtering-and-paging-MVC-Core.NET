@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services.Interfaces
 {
-    public interface IApplicantService : IServiceBase<Applicant>, ISortAndSearchService<Applicant>
+    public interface IApplicantService : IServiceBase<Applicant>, IPagingSortAndSearchService<Applicant>
     {
-        Task<IEnumerable<Applicant>> GetApplicantList(string jobReference, string search, string sortOrder);
+        Task<(IEnumerable<Applicant> applicants, int numberOfItems)> GetApplicantList(string jobReference, string search, string sortOrder, int indexPage, int itemsPerPage);
         Task<Application> GetApplicantLastApplication(int applicantId);
         Task<Applicant> AddAsync(Applicant applicant, string jobReference);
     }

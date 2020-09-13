@@ -10,21 +10,19 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services
 {
-    public class ApplicantService : ServiceBase<Applicant, EfApplicant>, IApplicantService, ISortAndSearchService<Applicant>
+    public class ApplicantService : PagingSortingSearchingServiceBase<Applicant, EfApplicant>, IApplicantService, IPagingSortAndSearchService<Applicant>
     {
         private readonly IEfApplicantRepository _efApplicantRepository;
         private readonly IEfApplicationRepository _efApplicationRepository;
-        private readonly Func<IEnumerable<EfApplicant>, IList<Applicant>> _mapListEntityToListDomain;
         private readonly Func<EfApplication, Application> _mapApplicationEntityToDomain;
 
         public ApplicantService(IEfApplicantRepository efApplicantRepository,
                                     IEfApplicationRepository efApplicationRepository,
                                     IEfUnitRepository efUnitRepository)
-            : base(efApplicantRepository, efUnitRepository, ApplicantMapper.MapDomainToEntity, ApplicantMapper.MapEntityToDomain)
+            : base(efApplicantRepository, efUnitRepository, ApplicantMapper.MapDomainToEntity, ApplicantMapper.MapEntityToDomain, ApplicantMapper.MapListEntityToListDomain, Applicant._DefaultSort)
         {
             _efApplicantRepository = efApplicantRepository;
             _efApplicationRepository = efApplicationRepository;
-            _mapListEntityToListDomain = ApplicantMapper.MapListEntityToListDomain;
             _mapApplicationEntityToDomain = ApplicationMapper.MapEntityToDomain;
 
         }
@@ -66,53 +64,34 @@ namespace Recruiting.BL.Services
             return _mapApplicationEntityToDomain(efLastApplication);
         }
 
-        public IEnumerable<Applicant> FilterList(string search, IEnumerable<Applicant> applicants)
+        public override Func<Applicant, bool> GetFilter(string search)
         {
-            if (!String.IsNullOrEmpty(search))
+            if (String.IsNullOrEmpty(search))
             {
-                applicants = applicants.Where(app => app.FulllName.ToLower().Contains(search.ToLower()) || app.Email.ToLower().Contains(search));
+                return s => 1 == 1;
             }
-
-            return applicants;
+            else
+            {
+                return app => app.FulllName.ToLower().Contains(search.ToLower()) || app.Email.ToLower().Contains(search);
+            }
         }
 
-        public IEnumerable<Applicant> SortList(string sortOrder, IEnumerable<Applicant> applicants)
+        public override Func<Applicant, string> GetSort(string sortOrder)
         {
             switch (sortOrder)
             {
                 case "email":
-                    applicants = applicants.OrderBy(app => app.Email);
-                    break;
+                    return (app => app.Email);
                 case "city":
-                    applicants = applicants.OrderBy(app => app.City);
-                    break;
+                    return (app => app.City);
                 case "country":
-                    applicants = applicants.OrderBy(app => app.Country);
-                    break;
+                    return (app => app.Country);
                 case "application":
-                    applicants = applicants.OrderBy(app => app.ApplicationTitleAndReference);
-                    break;
-                case "fullname_desc":
-                    applicants = applicants.OrderByDescending(app => app.FulllName);
-                    break;
-                case "email_desc":
-                    applicants = applicants.OrderByDescending(app => app.Email);
-                    break;
-                case "city_desc":
-                    applicants = applicants.OrderByDescending(app => app.City);
-                    break;
-                case "country_desc":
-                    applicants = applicants.OrderByDescending(app => app.Country);
-                    break;
-                case "application_desc":
-                    applicants = applicants.OrderByDescending(app => app.ApplicationTitleAndReference);
-                    break;
+                    return (app => app.ApplicationTitleAndReference);
                 default:
-                    applicants = applicants.OrderBy(app => app.FulllName);
-                    break;
+                    return (app => app.FulllName);
             }
 
-            return applicants;
         }
 
         private async Task<IEnumerable<Applicant>> GetApplicantsByJobReference(string jobReference)
@@ -141,7 +120,8 @@ namespace Recruiting.BL.Services
             }
             return applicants;
         }
-        public async Task<IEnumerable<Applicant>> GetApplicantList(string jobReference, string search, string sortOrder)
+
+        public async Task<(IEnumerable<Applicant> applicants, int numberOfItems)> GetApplicantList(string jobReference, string search, string sortOrder, int indexPage, int itemsPerPage)
         {
             IEnumerable<Applicant> applicants;
             if (String.IsNullOrEmpty(jobReference))
@@ -152,18 +132,12 @@ namespace Recruiting.BL.Services
             {
                 applicants = await GetApplicantsByJobReference(jobReference);
             }
-            applicants = FilterList(search, applicants);
-            applicants = SortList(sortOrder, applicants);
 
-            return applicants;
+            return applicants
+                    .Where(GetFilter(search))
+                    .SortList(sortOrder.Contains("_desc"), GetSort(sortOrder.Replace("_desc", "")))
+                    .GetPageElements(indexPage, itemsPerPage);
         }
-        public async Task<IEnumerable<Applicant>> GetListAsync(string search, string sortOrder)
-        {
-            IEnumerable<Applicant> applicants = await GetApplicantsWithLastApplication();
-            applicants = FilterList(search, applicants);
-            applicants = SortList(sortOrder, applicants);
 
-            return applicants;
-        }
     }
 }

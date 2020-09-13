@@ -10,17 +10,15 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services
 {
-    public class JobService : ServiceBase<Job, EfJob>, IJobService, ISortAndSearchService<Job>
+    public class JobService : PagingSortingSearchingServiceBase<Job, EfJob>, IJobService
     {
         private readonly IEfJobRepository _efJobRepository;
-        private readonly Func<IEnumerable<EfJob>, IList<Job>> _mapListEntityToListDomain;
 
         public JobService(IEfJobRepository efJobRepository,
                             IEfUnitRepository efUnitRepository)
-            : base(efJobRepository, efUnitRepository, JobMapper.MapDomainToEntity, JobMapper.MapEntityToDomain)
+            : base(efJobRepository, efUnitRepository, JobMapper.MapDomainToEntity, JobMapper.MapEntityToDomain, JobMapper.MapListEntityToListDomain, Job._DefaultSort)
         {
             _efJobRepository = efJobRepository;
-            _mapListEntityToListDomain = JobMapper.MapListEntityToListDomain;
         }
 
         public async Task<(int Id, string Title)?> GetIdAndTitleByReference(string jobReference)
@@ -33,36 +31,29 @@ namespace Recruiting.BL.Services
             return null;
         }
 
-        public IEnumerable<Job> FilterList(string searchText, IEnumerable<Job> jobs)
+        public override Func<Job, bool> GetFilter(string search)
         {
-            if (!String.IsNullOrEmpty(searchText))
+            if (String.IsNullOrEmpty(search))
             {
-                jobs = jobs.Where(job => job.Title.ToLower().Contains(searchText.ToLower()) || job.Reference.ToLower().Contains(searchText.ToLower()));
+                return s => 1 == 1;
             }
-
-            return jobs;
+            else
+            {
+                return job => job.Title.ToLower().Contains(search.ToLower()) || job.Reference.ToLower().Contains(search.ToLower());
+            }
         }
-
-        public IEnumerable<Job> SortList(string sortOrder, IEnumerable<Job> efJobs)
+        public override Func<Job, string> GetSort(string sortOrder)
         {
             switch (sortOrder)
             {
-                case "title_desc":
-                    return efJobs.OrderByDescending(job => job.Title);
                 case "reference":
-                    return efJobs.OrderBy(job => job.Reference);
-                case "reference_desc":
-                    return efJobs.OrderByDescending(job => job.Reference);
+                    return (job => job.Reference);
                 case "location":
-                    return efJobs.OrderBy(job => job.Location);
-                case "location_desc":
-                    return efJobs.OrderByDescending(job => job.Location);
+                    return (job => job.Location);
                 case "company":
-                    return efJobs.OrderBy(job => job.Company);
-                case "company_desc":
-                    return efJobs.OrderByDescending(job => job.Company);
+                    return (job => job.Company);
                 default:
-                    return efJobs.OrderBy(job => job.Title);
+                    return (job => job.Title);
             }
         }
 
@@ -71,14 +62,5 @@ namespace Recruiting.BL.Services
 
         public bool IsReferenceUnique(int id, string reference)
             => _efJobRepository.IsReferenceUnique(id, reference);
-
-        public async Task<IEnumerable<Job>> GetListAsync(string search, string sortOrder)
-        {
-            IEnumerable<EfJob> efJobs = await _efJobRepository.ListAsync();
-            IEnumerable<Job> jobs = _mapListEntityToListDomain(efJobs);
-            jobs = FilterList(search, jobs);
-            jobs = SortList(sortOrder, jobs);
-            return jobs;
-        }
     }
 }
