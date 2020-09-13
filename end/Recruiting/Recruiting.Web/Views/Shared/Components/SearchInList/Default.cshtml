@@ -1,9 +1,5 @@
 ﻿@model ControllerActionSSPViewModel
 
-
-@{
-}
-
 <form class="form-inline py-2 my-2 my-lg-0 w-100 form-search" asp-controller="@Model.Controller" asp-action="@Model.Action" method="get">
     <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
     <div class="input-group w-50">

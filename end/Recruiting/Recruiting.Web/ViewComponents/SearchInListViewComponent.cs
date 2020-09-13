@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Recruiting.BL.Services.Interfaces;
 using Recruiting.Web.Models.ViewModels;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Recruiting.Web.ViewComponents
 {
