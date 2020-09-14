@@ -11,16 +11,19 @@ namespace Recruiting.BL.Services
     public abstract class PagingSortingSearchingServiceBase<TDomain, TEntity> : ServiceBase<TDomain, TEntity>, IPagingSortAndSearchService<TDomain>
                                                                 where TDomain : class where TEntity : class
     {
+        protected string _defaultSort { get; set; }
         protected readonly Func<IEnumerable<TEntity>, IList<TDomain>> _mapListEntityToListDomain;
         public PagingSortingSearchingServiceBase(
                                 IEfRepositoryBase<TEntity> efRepository,
                                 IEfUnitRepository efUnitRepository,
                                 Func<TDomain, TEntity> mapDomainToEntity,
                                 Func<TEntity, TDomain> mapEntityToDomain,
-                                Func<IEnumerable<TEntity>, IList<TDomain>> mapListEntityToListDomain)
+                                Func<IEnumerable<TEntity>, IList<TDomain>> mapListEntityToListDomain,
+                                string defaultSort)
             : base(efRepository, efUnitRepository, mapDomainToEntity, mapEntityToDomain)
         {
             _mapListEntityToListDomain = mapListEntityToListDomain;
+            _defaultSort = defaultSort;
         }
         public virtual Func<TDomain, bool> GetFilter(string search)
         {
@@ -34,7 +37,7 @@ namespace Recruiting.BL.Services
             return _mapListEntityToListDomain(efList)
                         .ToList()
                         .Where(GetFilter(search))
-                        .SortList(sortOrder.Contains("_desc"), GetSort(sortOrder.Replace("_desc", "")))
+                        .SortList((sortOrder ?? _defaultSort).Contains("_desc"), GetSort((sortOrder??_defaultSort).Replace("_desc", "")))
                         .GetPageElements(indexPage, itemsPerPage);
         }
 

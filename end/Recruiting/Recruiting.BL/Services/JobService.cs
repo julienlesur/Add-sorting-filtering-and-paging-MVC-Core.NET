@@ -16,7 +16,7 @@ namespace Recruiting.BL.Services
 
         public JobService(IEfJobRepository efJobRepository,
                             IEfUnitRepository efUnitRepository)
-            : base(efJobRepository, efUnitRepository, JobMapper.MapDomainToEntity, JobMapper.MapEntityToDomain, JobMapper.MapListEntityToListDomain)
+            : base(efJobRepository, efUnitRepository, JobMapper.MapDomainToEntity, JobMapper.MapEntityToDomain, JobMapper.MapListEntityToListDomain, Job._DefaultSort)
         {
             _efJobRepository = efJobRepository;
         }

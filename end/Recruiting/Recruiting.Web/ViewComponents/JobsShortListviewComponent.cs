@@ -17,9 +17,9 @@ namespace Recruiting.Web.ViewComponents
             _jobService = jobService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(string search, string sortOrder)
         {
-            (IEnumerable<Job> jobs, int numberOfITems) = await _jobService.GetListAsync("","", 1, 3);
+            (IEnumerable<Job> jobs, int numberOfITems) = await _jobService.GetListAsync(search,sortOrder, 1, 1000);
 
             return View(jobs);
         }
