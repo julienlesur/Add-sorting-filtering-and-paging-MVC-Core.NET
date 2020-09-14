@@ -4,9 +4,6 @@ using Recruiting.Infrastructures.Configurations;
 using Recruiting.Web.Infrastructures;
 using Recruiting.Web.Models.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Recruiting.Web.ViewComponents
 {

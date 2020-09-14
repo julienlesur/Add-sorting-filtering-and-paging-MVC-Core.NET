@@ -103,11 +103,9 @@ body {
 .page-item .page-link {
     background-color: #95a5a6;
 }
-
 .page-item.active .page-link {
     background-color: #2C3E50;
 }
-
 .page-item.disabled .page-link {
     background-color: #95a5a6;
     opacity: 0.65;
