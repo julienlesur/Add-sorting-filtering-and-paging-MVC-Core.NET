@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Recruiting.BL.Models;
 using Recruiting.BL.Services.Interfaces;
 using Recruiting.Data.EfModels;
-using Recruiting.Infrastructures.Configuration;
+using Recruiting.Infrastructures.Configurations;
 using Recruiting.Web.Infrastructures;
 using Recruiting.Web.Models.ViewModels;
 using System.Collections.Generic;

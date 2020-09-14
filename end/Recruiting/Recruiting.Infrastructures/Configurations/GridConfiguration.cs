@@ -1,4 +1,4 @@
-﻿namespace Recruiting.Infrastructures.Configuration
+﻿namespace Recruiting.Infrastructures.Configurations
 {
     public class GridConfiguration
     {

@@ -8,7 +8,7 @@ using Recruiting.BL.Services.Interfaces;
 using Recruiting.Web.Models.ViewModels;
 using Recruiting.Infrastructures.ActionFilters;
 using Microsoft.Extensions.Options;
-using Recruiting.Infrastructures.Configuration;
+using Recruiting.Infrastructures.Configurations;
 using Recruiting.Web.Infrastructures;
 
 namespace Recruiting.Web.Controllers
