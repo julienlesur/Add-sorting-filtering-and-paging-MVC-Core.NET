@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Recruiting.Data.Data;
-using Recruiting.Infrastructures.Configuration;
+using Recruiting.Infrastructures.Configurations;
 
 namespace Recruiting.Web
 {

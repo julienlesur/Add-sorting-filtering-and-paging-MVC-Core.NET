@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Recruiting.Infrastructures.Configuration;
+using Recruiting.Infrastructures.Configurations;
 using Recruiting.Web.Infrastructures;
 using Recruiting.Web.Models.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Recruiting.Web.ViewComponents
 {
@@ -24,7 +21,7 @@ namespace Recruiting.Web.ViewComponents
             string controller, 
             string action = "List")
         {
-            ControllerActionSSPViewModel vm = new ControllerActionSSPViewModel
+            PaginationViewModel vm = new PaginationViewModel
             {
                 NumberOfItems = numberOfItems,
                 ItemsPerPage = _gridOptions.ItemsPerPage,
