@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services
 {
-    public abstract class PagingSortingSearchingServiceBase<TDomain, TEntity> : ServiceBase<TDomain, TEntity>, IPagingSortAndSearchService<TDomain>
+    public abstract class SortSearchAndPagingServiceBase<TDomain, TEntity> : ServiceBase<TDomain, TEntity>, IPagingSortAndSearchService<TDomain>
                                                                 where TDomain : class where TEntity : class
     {
         protected string _defaultSort { get; set; }
         protected readonly Func<IEnumerable<TEntity>, IList<TDomain>> _mapListEntityToListDomain;
-        public PagingSortingSearchingServiceBase(
+        public SortSearchAndPagingServiceBase(
                                 IEfRepositoryBase<TEntity> efRepository,
                                 IEfUnitRepository efUnitRepository,
                                 Func<TDomain, TEntity> mapDomainToEntity,
@@ -45,5 +45,7 @@ namespace Recruiting.BL.Services
         {
             return s => s.ToString();
         }
+
+
     }
 }

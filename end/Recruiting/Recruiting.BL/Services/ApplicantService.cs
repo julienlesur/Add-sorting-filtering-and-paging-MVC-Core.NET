@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services
 {
-    public class ApplicantService : PagingSortingSearchingServiceBase<Applicant, EfApplicant>, IApplicantService, IPagingSortAndSearchService<Applicant>
+    public class ApplicantService : SortSearchAndPagingServiceBase<Applicant, EfApplicant>, IApplicantService, IPagingSortAndSearchService<Applicant>
     {
         private readonly IEfApplicantRepository _efApplicantRepository;
         private readonly IEfApplicationRepository _efApplicationRepository;

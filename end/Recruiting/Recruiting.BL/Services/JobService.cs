@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Recruiting.BL.Services
 {
-    public class JobService : PagingSortingSearchingServiceBase<Job, EfJob>, IJobService
+    public class JobService : SortSearchAndPagingServiceBase<Job, EfJob>, IJobService
     {
         private readonly IEfJobRepository _efJobRepository;
 
