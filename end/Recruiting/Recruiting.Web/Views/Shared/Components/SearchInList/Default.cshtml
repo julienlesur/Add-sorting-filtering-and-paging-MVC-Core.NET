@@ -1,13 +1,9 @@
-﻿@model ControllerActionSSPViewModel
-
-
-@{
-}
+﻿@model SearchInListViewModel
 
 <form class="form-inline py-2 my-2 my-lg-0 w-100 form-search" asp-controller="@Model.Controller" asp-action="@Model.Action" method="get">
     <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
     <div class="input-group w-50">
-        <input type="text" class="form-control input-search-text" placeholder="Search in name or email..." asp-for="@Model.SearchText" />
+        <input type="text" class="form-control input-search-text" placeholder="Search..." asp-for="@Model.SearchText" />
         <button class="btn bg-transparent btn-cancel-search" style="margin-left: -40px; z-index: 100; color:#95a5a6" title="Cancel search" onclick="return false;">
             <i class="fa fa-times"></i>
         </button>

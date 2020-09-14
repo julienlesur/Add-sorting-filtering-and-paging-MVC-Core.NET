@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Recruiting.Web.Models.ViewModels
 {
-    public class ControllerActionSSPViewModel : SortSearchAndPagingViewModel
+    public abstract class ControllerActionSSPViewModel : SortSearchAndPagingViewModel
     {
         public string Controller { get; set; }
         public string Action { get; set; }

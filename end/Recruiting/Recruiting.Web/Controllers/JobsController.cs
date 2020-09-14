@@ -4,12 +4,10 @@ using Microsoft.Extensions.Options;
 using Recruiting.BL.Models;
 using Recruiting.BL.Services.Interfaces;
 using Recruiting.Data.EfModels;
-using Recruiting.Infrastructures.Configuration;
+using Recruiting.Infrastructures.Configurations;
 using Recruiting.Web.Models.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace Recruiting.Web.Controllers

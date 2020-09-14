@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Recruiting.Infrastructures.Configuration;
+using Recruiting.Infrastructures.Configurations;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
