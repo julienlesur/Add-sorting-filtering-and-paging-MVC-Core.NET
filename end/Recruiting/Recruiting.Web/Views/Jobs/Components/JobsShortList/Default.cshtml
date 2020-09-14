@@ -9,7 +9,7 @@
         @foreach (var job in Model)
         {
             <li class="list-group-item list-group-item-short-list" active-url="Details/@(job.JobId)" comparer-mode="endswith">
-                <a class="text-white" asp-controller="Jobs" asp-action="Details" asp-route-id="@job.JobId" title="@job.Title - @job.Reference">
+                <a class="text-white" asp-controller="Jobs" asp-action="Details" asp-route-id="@job.JobId" title="@job.Title - @job.Reference" sort-search="11">
                     <i class="fa fa-briefcase pr-2"></i>@job.Title - @job.Reference
                 </a>
             </li>

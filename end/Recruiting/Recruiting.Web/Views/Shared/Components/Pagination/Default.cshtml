@@ -3,12 +3,12 @@
 @if (Model.NumberOfPage > 1)
 {
     <ul class="pagination">
-        <li class="page-item @(@Model.CurrentPage == 1 ? "disabled" : "") "><a class="page-link" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-indexPage="@(@Model.CurrentPage - 1)" asp-route-searchOrFilter="@Model.SearchText" asp-route-sortOrder="@Model.CurrentSort">Previous</a></li>
+        <li class="page-item @(@Model.CurrentPage == 1 ? "disabled" : "") "><a class="page-link" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-indexPage="@(@Model.CurrentPage - 1)" sort-search="11">Previous</a></li>
         @for (int idxPage = 1; idxPage <= Model.NumberOfPage; idxPage++)
         {
-            <li class="page-item @(@Model.CurrentPage == @idxPage ? "active" : "")"><a class="page-link" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-indexPage="@idxPage" asp-route-searchOrFilter="@Model.SearchText" asp-route-sortOrder="@Model.CurrentSort">@idxPage</a></li>
+            <li class="page-item @(@Model.CurrentPage == @idxPage ? "active" : "")"><a class="page-link" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-indexPage="@idxPage" sort-search="11">@idxPage</a></li>
         }
-        <li class="page-item  @(@Model.CurrentPage == @Model.NumberOfPage ? "disabled" : "")"><a class="page-link" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-indexPage="@(@Model.CurrentPage + 1)" asp-route-searchOrFilter="@Model.SearchText" asp-route-sortOrder="@Model.CurrentSort">Next</a></li>
+        <li class="page-item  @(@Model.CurrentPage == @Model.NumberOfPage ? "disabled" : "")"><a class="page-link" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-indexPage="@(@Model.CurrentPage + 1)" sort-search="11">Next</a></li>
     </ul>
 
 }

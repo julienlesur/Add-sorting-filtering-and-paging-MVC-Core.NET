@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Recruiting.Infrastructures.Configurations;
+using Recruiting.Web.Infrastructures;
 using Recruiting.Web.Models.ViewModels;
 using System;
 
@@ -17,8 +18,6 @@ namespace Recruiting.Web.ViewComponents
         public IViewComponentResult Invoke(
             int numberOfItems, 
             int currentPage, 
-            string search, 
-            string sort, 
             string controller, 
             string action = "List")
         {
@@ -29,9 +28,7 @@ namespace Recruiting.Web.ViewComponents
                 CurrentPage = currentPage,
                 NumberOfPage = (int)Math.Ceiling((double)numberOfItems / _gridOptions.ItemsPerPage),
                 Controller= controller,
-                Action= action,
-                SearchText = search,
-                CurrentSort= sort
+                Action= action
             };
             return View(vm);
         }

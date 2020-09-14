@@ -28,7 +28,9 @@ namespace Recruiting.BL.Models
 
 
         public static readonly Job _EmptyJob = new Job { JobId = 0 };
-            public static bool IsEmpty(Job job)
+        public static readonly string _DefaultSort = "title";
+
+        public static bool IsEmpty(Job job)
                 => job == _EmptyJob;
 
         public override bool Equals(object obj)

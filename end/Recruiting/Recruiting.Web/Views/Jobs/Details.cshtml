@@ -3,7 +3,7 @@
 }
 
 @section LeftMenu{
-    @await Component.InvokeAsync("JobsShortList")
+    @await Component.InvokeAsync("JobsShortList", new { search = Model.SearchText, sortOrder = Model.CurrentSort })
 }
 
 <h2>@Model.Job.Title - @Model.Job.Reference </h2>
@@ -22,7 +22,7 @@
     </div>
 </div>
 <a asp-action="Edit" asp-controller="Jobs" asp-route-id="@Model.Job.JobId" class="btn btn-primary">Edit Job</a>
-<a asp-action="List" asp-controller="Jobs" class="btn btn-secondary">Back to the Jobs' list</a>
+<a asp-action="List" asp-controller="Jobs" class="btn btn-secondary" sort-search="11">Back to the Jobs' list</a>
 @if (!String.IsNullOrEmpty(Model.Message))
 {
     <div class="mt-2 alert alert-info">@Model.Message</div>

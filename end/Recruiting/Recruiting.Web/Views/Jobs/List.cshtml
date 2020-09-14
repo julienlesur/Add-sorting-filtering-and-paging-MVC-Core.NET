@@ -12,22 +12,22 @@
         <thead>
             <tr class="table-primary">
                 <th>
-                    <a asp-controller="Jobs" asp-action="List" sort-order="title" current-sort="@Model.CurrentSort">
+                    <a asp-controller="Jobs" asp-action="List" sort-order="title" current-sort="@Model.CurrentSort" sort-search="01">
                         @Html.DisplayNameFor(model => model.Jobs.FirstOrDefault().Title)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Jobs" asp-action="List" sort-order="reference" current-sort="@Model.CurrentSort">
+                    <a asp-controller="Jobs" asp-action="List" sort-order="reference" current-sort="@Model.CurrentSort" sort-search="01">
                         @Html.DisplayNameFor(model => model.Jobs.FirstOrDefault().Reference)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Jobs" asp-action="List" sort-order="company" current-sort="@Model.CurrentSort">
+                    <a asp-controller="Jobs" asp-action="List" sort-order="company" current-sort="@Model.CurrentSort" sort-search="01">
                         @Html.DisplayNameFor(model => model.Jobs.FirstOrDefault().Company)
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Jobs" asp-action="List" sort-order="location" current-sort="@Model.CurrentSort">
+                    <a asp-controller="Jobs" asp-action="List" sort-order="location" current-sort="@Model.CurrentSort" sort-search="01">
                         @Html.DisplayNameFor(model => model.Jobs.FirstOrDefault().Location)
                     </a>
                 </th>
@@ -61,7 +61,7 @@
                         <job-applicant-list job-reference="@job.Reference"></job-applicant-list>
                     </td>
                     <td class="d-flex justify-content-center">
-                        <a class="btn btn-sm" asp-controller="Jobs" asp-action="Details" asp-route-id="@job.JobId" title="Details Job">
+                        <a class="btn btn-sm" asp-controller="Jobs" asp-action="Details" asp-route-id="@job.JobId" sort-search="11" title="Details Job">
                             <i class="fas fa-info-circle"></i>
                         </a>
                         <a class="btn btn-sm" asp-controller="Jobs" asp-action="Edit" asp-route-id="@job.JobId" title="Edit job">
@@ -80,7 +80,7 @@
     </table>
 </div>
 
-@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.NumberOfItems, currentPage = Model.CurrentPage, sort = Model.CurrentSort, search = Model.SearchText, controller = "Jobs" })
+@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.NumberOfItems, currentPage = Model.CurrentPage, controller = "Jobs" })
 
 
 @section Scripts {
