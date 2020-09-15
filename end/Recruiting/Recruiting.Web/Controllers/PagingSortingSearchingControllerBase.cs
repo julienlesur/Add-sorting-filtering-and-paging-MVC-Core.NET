@@ -1,9 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Recruiting.Infrastructures.Configurations;
 
 namespace Recruiting.Web.Controllers
 {
     public abstract class PagingSortingSearchingControllerBase : Controller
     {
+        protected readonly GridConfiguration _gridOptions;
+
+        protected PagingSortingSearchingControllerBase(IOptions<GridConfiguration> gridOptions)
+        {
+            _gridOptions = gridOptions.Value;
+        }
+
         [ModelBinder]
         public string SearchText { get; set; }
         [ModelBinder]

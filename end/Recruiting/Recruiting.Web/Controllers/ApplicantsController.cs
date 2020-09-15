@@ -17,14 +17,13 @@ namespace Recruiting.Web.Controllers
     public class ApplicantsController : PagingSortingSearchingControllerBase
     {
         private readonly IApplicantService _applicantService;
-        private readonly GridConfiguration _gridOptions;
 
         public override string _sortOrder => SortOrder ?? Applicant._DefaultSort;
         public ApplicantsController(IApplicantService applicantService,
                                         IOptions<GridConfiguration> gridOptions)
+            : base(gridOptions)
         {
             _applicantService = applicantService;
-            _gridOptions = gridOptions.Value;
         }
 
         [PagingSortingSearching]

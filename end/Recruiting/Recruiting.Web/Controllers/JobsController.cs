@@ -17,16 +17,15 @@ namespace Recruiting.Web.Controllers
     {
         private readonly IJobService _jobService;
         private readonly IHtmlHelper _htmlHelper;
-        private readonly GridConfiguration _gridOptions;
-
         public override string _sortOrder => SortOrder??Job._DefaultSort;
+
         public JobsController(IJobService jobService,
                                 IHtmlHelper htmlHelper,
                                 IOptions<GridConfiguration> gridOptions)
+            : base(gridOptions)
         {
             _jobService = jobService;
             _htmlHelper = htmlHelper;
-            _gridOptions = gridOptions.Value;
         }
 
         [PagingSortingSearching]
